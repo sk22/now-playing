@@ -8,7 +8,7 @@ import { getUsername, setUsername, clearUsername } from './storage'
 import Login from './view/login'
 import LoggedIn from './view/logged-in'
 
-const StyledApp = styled.div`
+const Container = styled.div`
   margin: 0 auto;
   padding: 2rem;
 
@@ -21,6 +21,11 @@ const Heading = styled.h1`
   font-size: 1.8rem;
   text-transform: uppercase;
   letter-spacing: .3rem;
+  background-color: #3F51B5;
+  color: white;
+  text-align: center;
+  margin: 0;
+  padding: 2rem;
 `
 
 class App extends Component {
@@ -39,14 +44,19 @@ class App extends Component {
   }
 
   render = () => (
-    <StyledApp>
-      <Heading>now playing</Heading>
-      {this.state.username ? (
-        <LoggedIn username={this.state.username} onLogout={this.handleLogout} />
-      ) : (
-        <Login onLogin={this.handleLogin} />
-      )}
-    </StyledApp>
+    <div>
+      <Heading className="mdc-elevation--z7">now playing</Heading>
+      <Container>
+        {this.state.username ? (
+          <LoggedIn
+            username={this.state.username}
+            onLogout={this.handleLogout}
+          />
+        ) : (
+          <Login onLogin={this.handleLogin} />
+        )}
+      </Container>
+    </div>
   )
 }
 

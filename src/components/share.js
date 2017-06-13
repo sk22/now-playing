@@ -16,7 +16,11 @@ class Share extends Component {
     }).isRequired
   }
 
-  componentDidMount = () => window.twttr.widgets.load()
+  componentDidMount = () => {
+    // If Twitter hasn't loaded yet, load() will be executed from the Twitter
+    // script automatically.
+    if (window.twttr.widgets) window.twttr.widgets.load()
+  }
 
   render = () => (
     <div>
