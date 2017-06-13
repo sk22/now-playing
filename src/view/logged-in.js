@@ -1,18 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import Track from '../components/track'
 import RightLeft from '../styled/right-left'
-import Margined from '../styled/margined'
+
+const Margin = styled.div`
+  margin-bottom: 1rem;
+`
 
 const LoggedIn = ({ username, onLogout }) => (
   <div>
-    <Margined>
+    <Margin>
       <RightLeft>
-        <span>Logged in as <code>{username}</code></span>
+        <span>Logged in as {username}</span>
         <button className="mdc-button" onClick={onLogout}>Logout</button>
       </RightLeft>
-    </Margined>
+    </Margin>
     <Track username={username} />
   </div>
 )

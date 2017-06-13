@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Margined from '../styled/margined'
 
 const TextField = styled.input`
   width: 100%;
@@ -10,6 +9,10 @@ const TextField = styled.input`
 
 const Flex = styled.div`
   display: flex;
+`
+
+const Margin = styled.div`
+  margin-bottom: 1rem;
 `
 
 const Login = ({ onLogin }) => {
@@ -22,7 +25,7 @@ const Login = ({ onLogin }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Margined className="mdc-form-field">
+      <Margin className="mdc-form-field">
         <Flex className="mdc-textfield">
           <TextField
             type="text"
@@ -36,7 +39,7 @@ const Login = ({ onLogin }) => {
             Login
           </button>
         </Flex>
-      </Margined>
+      </Margin>
     </form>
   )
 }

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Share from '../components/share'
-import Margined from '../styled/margined'
 import { getLastTruthy } from '../util'
 
 import emptyAlbumArt from '../assets/empty-album-art.svg'
@@ -50,7 +49,10 @@ const AlbumArt = styled.img`
   width: 100%;
 `
 
-const Title = styled.span``
+const Title = styled.span`
+  display: inline-block;
+  margin-bottom: 1rem;
+`
 
 const TrackText = styled.div`
   padding: 1rem;
@@ -60,9 +62,11 @@ const getBestImage = array => getLastTruthy(array.map(image => image['#text']))
 
 const TrackView = ({ track }) => (
   <StyledTrack className="mdc-elevation--z5">
-    <AlbumArt src={getBestImage(track.image) || emptyAlbumArt} />
+    <a href={track.url}>
+      <AlbumArt src={getBestImage(track.image) || emptyAlbumArt} />
+    </a>
     <TrackText>
-      <Margined><Title>{track.artist['#text']} – {track.name}</Title></Margined>
+      <Title>{track.artist['#text']} – {track.name}</Title>
       <Share track={track} />
     </TrackText>
   </StyledTrack>
