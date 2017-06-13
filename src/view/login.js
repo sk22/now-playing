@@ -11,10 +11,6 @@ const Flex = styled.div`
   display: flex;
 `
 
-const Margin = styled.div`
-  margin-bottom: 1rem;
-`
-
 const Login = ({ onLogin }) => {
   let usernameElement
 
@@ -25,21 +21,19 @@ const Login = ({ onLogin }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Margin className="mdc-form-field">
-        <Flex className="mdc-textfield">
-          <TextField
-            type="text"
-            id="username"
-            name="username"
-            className="mdc-textfield__input"
-            placeholder="Last.fm username"
-            innerRef={node => { usernameElement = node }}
-          />
-          <button type="submit" className="mdc-button mdc-button--raised">
-            Login
-          </button>
-        </Flex>
-      </Margin>
+      <Flex className="mdc-textfield">
+        <TextField
+          type="text"
+          id="username"
+          name="username"
+          className="mdc-textfield__input"
+          placeholder="Last.fm username"
+          innerRef={node => { usernameElement = node }}
+        />
+        <button type="submit" className="mdc-button mdc-button--raised">
+          Login
+        </button>
+      </Flex>
     </form>
   )
 }

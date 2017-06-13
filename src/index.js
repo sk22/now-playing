@@ -5,7 +5,6 @@ import 'material-components-web/dist/material-components-web.css'
 import App from './app'
 import registerServiceWorker from './registerServiceWorker'
 import './index.css'
-import './twitter'
 
 ReactDOM.render(<App />, document.getElementById('root'))
 registerServiceWorker()
