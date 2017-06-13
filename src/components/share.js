@@ -31,7 +31,7 @@ const Flex = styled.div`
 `
 
 const ShareLink = ({ href, children }) => (
-  <a href={href} rel="noopener noreferrer">{children}</a>
+  <a href={href}>{children}</a>
 )
 
 ShareLink.propTypes = {

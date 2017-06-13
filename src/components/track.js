@@ -62,7 +62,7 @@ const getBestImage = array => getLastTruthy(array.map(image => image['#text']))
 
 const TrackView = ({ track }) => (
   <StyledTrack className="mdc-elevation--z5">
-    <a href={track.url}>
+    <a href={track.url} target="_blank" rel="noopener noreferrer">
       <AlbumArt src={getBestImage(track.image) || emptyAlbumArt} />
     </a>
     <TrackText>
