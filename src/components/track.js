@@ -3,16 +3,13 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Share from '../components/share'
-import { getLastTruthy } from '../util'
 
 import emptyAlbumArt from '../assets/empty-album-art.svg'
 
-const getBestImage = array =>
-  getLastTruthy(array.map(image => image['#text']))
-
 const apiKey = '320218989245c163110e04e6a64bb8b3'
 const getRecentTracksURL = user => 'https://ws.audioscrobbler.com/2.0/'
-  + `?method=user.getrecenttracks&user=${user}&api_key=${apiKey}&format=json`
+  + `?method=user.getrecenttracks&user=${user}&api_key=${apiKey}`
+  + '&format=json&limit=1'
 
 class Track extends Component {
   static propTypes = {
@@ -28,9 +25,22 @@ class Track extends Component {
     const res = await fetch(getRecentTracksURL(this.props.username))
     const json = await res.json()
     this.setState({ recents: json.recenttracks.track })
-    this.render()
-    await fetch(getBestImage(this.state.recents[0].image))
-    this.setState({ image: getBestImage(this.state.recents[0].image) })
+    const urls = this.state.recents[0].image
+      .map(image => image['#text'])
+      .filter(Boolean)
+
+    this.fetchAndSetImage(urls)
+  }
+
+  fetchAndSetImage = urls => {
+    let iteration = 0
+    urls.forEach(async (url, i) => {
+      await (await fetch(url, { cache: 'no-store' })).blob()
+      if (i < iteration) return
+      iteration = i
+      this.setState({ image: url })
+      this.render()
+    })
   }
 
   render = () => (
