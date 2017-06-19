@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Share from '../components/share'
+import IndeterminateProgressBar from '../components/indeterminate-progress-bar'
 
 import emptyAlbumArt from '../assets/empty-album-art.svg'
 
@@ -52,7 +53,7 @@ class Track extends Component {
           image={this.state.image}
         />
       ) : (
-        <div>Loading...</div>
+        <IndeterminateProgressBar />
       )}
     </div>
   )
