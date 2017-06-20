@@ -30,16 +30,18 @@ const Heading = styled.h1`
 
 class App extends Component {
   state = {
-    username: getUsername() || null
+    username: window.location.pathname.slice(1) || getUsername() || null
   }
 
   handleLogin = username => {
     this.setState({ username })
+    window.history.replaceState(username, 'Now Playing Page', `/${username}`)
     setUsername(username)
   }
 
   handleLogout = () => {
     this.setState({ username: null })
+    window.history.replaceState(null, 'Login Page', '/')
     clearUsername()
   }
 
