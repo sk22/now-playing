@@ -12,6 +12,8 @@ const getRecentTracksURL = user => 'https://ws.audioscrobbler.com/2.0/'
   + `?method=user.getrecenttracks&user=${user}&api_key=${apiKey}`
   + '&format=json&limit=1'
 
+const load = async url => (await fetch(url)).blob()
+
 class Track extends Component {
   static propTypes = {
     username: PropTypes.string.isRequired
@@ -30,13 +32,21 @@ class Track extends Component {
       .map(image => image['#text'])
       .filter(Boolean)
 
-    this.fetchAndSetImage(urls)
+    if (urls.length) {
+      await load(urls[0])
+      this.setState({ imageLoaded: true, image: urls[0] })
+      this.render()
+    }
+
+    if (urls.length > 1) {
+      this.fetchAndSetImage(urls.slice(1))
+    }
   }
 
   fetchAndSetImage = urls => {
     let iteration = 0
     urls.forEach(async (url, i) => {
-      await (await fetch(url, { cache: 'no-store' })).blob()
+      await load(url)
       if (i < iteration) return
       iteration = i
       this.setState({ image: url })
@@ -46,7 +56,7 @@ class Track extends Component {
 
   render = () => (
     <div>
-      {this.state.recents ? (
+      {this.state.recents && this.state.imageLoaded ? (
         <TrackView
           username={this.props.username}
           track={this.state.recents[0]}
