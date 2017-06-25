@@ -36,6 +36,8 @@ class Track extends Component {
       await load(urls[0])
       this.setState({ imageLoaded: true, image: urls[0] })
       this.render()
+    } else {
+      this.setState({ imageLoaded: true })
     }
 
     if (urls.length > 1) {
