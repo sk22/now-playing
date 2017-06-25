@@ -32,33 +32,35 @@ class Track extends Component {
       .map(image => image['#text'])
       .filter(Boolean)
 
-    if (urls.length) {
-      await load(urls[0])
-      this.setState({ imageLoaded: true, image: urls[0] })
-      this.render()
-    } else {
-      this.setState({ imageLoaded: true })
-    }
-
-    if (urls.length > 1) {
-      this.fetchAndSetImage(urls.slice(1))
-    }
+    this.progressivelyLoadImage(urls)
   }
 
-  fetchAndSetImage = urls => {
-    let iteration = 0
-    urls.forEach(async (url, i) => {
-      await load(url)
-      if (i < iteration) return
-      iteration = i
-      this.setState({ image: url })
-      this.render()
-    })
+  progressivelyLoadImage = urls => {
+    if (!urls.length) return
+
+    const updateAndRender = url => this.setState({ image: url }, this.render)
+
+    const firstURL = urls[0]
+    load(firstURL).then(() => updateAndRender(firstURL))
+
+    if (urls.length > 1) {
+      const lastURL = urls[urls.length - 1]
+      load(lastURL).then(() => updateAndRender(lastURL))
+    }
+
+    // let iteration = 0
+    // urls.forEach(async (url, i) => {
+    //   await load(url)
+    //   if (i < iteration) return
+    //   iteration = i
+    //   this.setState({ image: url })
+    //   this.render()
+    // })
   }
 
   render = () => (
     <div>
-      {this.state.recents && this.state.imageLoaded ? (
+      {this.state.recents ? (
         <TrackView
           username={this.props.username}
           track={this.state.recents[0]}
