@@ -3,32 +3,35 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import Share from '../components/share'
-import IndeterminateProgressBar from '../components/indeterminate-progress-bar'
-
 import emptyAlbumArt from '../assets/empty-album-art.svg'
-
-const apiKey = '320218989245c163110e04e6a64bb8b3'
-const getRecentTracksURL = user => 'https://ws.audioscrobbler.com/2.0/'
-  + `?method=user.getrecenttracks&user=${user}&api_key=${apiKey}`
-  + '&format=json&limit=1'
 
 const load = async url => (await fetch(url)).blob()
 
+const trackPropType = PropTypes.shape({
+  name: PropTypes.string,
+  artist: PropTypes.shape({
+    '#text': PropTypes.string
+  }),
+  url: PropTypes.string,
+  image: PropTypes.arrayOf(PropTypes.shape({ '#text': PropTypes.string }))
+})
+
 class Track extends Component {
   static propTypes = {
-    username: PropTypes.string.isRequired
+    track: trackPropType.isRequired,
+    current: PropTypes.bool
+  }
+
+  static defaultProps = {
+    current: false
   }
 
   state = {
-    recents: null,
     image: null
   }
 
   componentDidMount = async () => {
-    const res = await fetch(getRecentTracksURL(this.props.username))
-    const json = await res.json()
-    this.setState({ recents: json.recenttracks.track })
-    const urls = this.state.recents[0].image
+    const urls = this.props.track.image
       .map(image => image['#text'])
       .filter(Boolean)
 
@@ -59,27 +62,26 @@ class Track extends Component {
   }
 
   render = () => (
-    <div>
-      {this.state.recents ? (
-        <TrackView
-          username={this.props.username}
-          track={this.state.recents[0]}
-          image={this.state.image}
-        />
-      ) : (
-        <IndeterminateProgressBar />
-      )}
-    </div>
+    <TrackView
+      track={this.props.track}
+      image={this.state.image}
+      big={this.props.current}
+    />
   )
 }
 
 const StyledTrack = styled.div`
   display: flex;
-  flex-direction: column;
+  ${({ big }) => `flex-direction: ${big ? 'column' : 'row'};`}
+  ${({ big }) => big || 'height: 9rem;'}
 `
 
 const AlbumArt = styled.img`
-  width: 100%;
+  ${({ big }) => `${big ? 'width' : 'height'}: 100%;`}
+`
+
+const Link = styled.a`
+  ${({ big }) => `${big ? 'width' : 'height'}: 100%;`}
 `
 
 const Title = styled.span`
@@ -88,14 +90,17 @@ const Title = styled.span`
 `
 
 const TrackText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 1rem;
 `
 
-const TrackView = ({ track, image }) => (
-  <StyledTrack className="mdc-elevation--z5">
-    <a href={track.url} target="_blank" rel="noopener noreferrer">
-      <AlbumArt src={image || emptyAlbumArt} />
-    </a>
+const TrackView = ({ track, image, big }) => (
+  <StyledTrack big={big} className="mdc-elevation--z5">
+    <Link href={track.url} target="_blank" rel="noopener noreferrer">
+      <AlbumArt big={big} src={image || emptyAlbumArt} />
+    </Link>
     <TrackText>
       <Title>
         {track.artist['#text']} – {track.name}
@@ -106,19 +111,14 @@ const TrackView = ({ track, image }) => (
 )
 
 TrackView.propTypes = {
-  track: PropTypes.shape({
-    name: PropTypes.string,
-    artist: PropTypes.shape({
-      '#text': PropTypes.string
-    }),
-    url: PropTypes.string,
-    image: PropTypes.arrayOf(PropTypes.shape({ '#text': PropTypes.string }))
-  }).isRequired,
-  image: PropTypes.string
+  track: trackPropType.isRequired,
+  image: PropTypes.string,
+  big: PropTypes.bool
 }
 
 TrackView.defaultProps = {
-  image: null
+  image: null,
+  big: false
 }
 
 export default Track

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import 'isomorphic-fetch'
 
-import { media } from './style-utils'
+import media from './media'
 import { getUsername, setUsername, clearUsername } from './storage'
 
 import Login from './view/login'

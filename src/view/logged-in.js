@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import Track from '../components/track'
+import Recents from '../components/recents'
 import RightLeft from '../styled/right-left'
 
 const Margin = styled.div`
@@ -17,7 +17,7 @@ const LoggedIn = ({ username, onLogout }) => (
         <button className="mdc-button" onClick={onLogout}>Logout</button>
       </RightLeft>
     </Margin>
-    <Track username={username} />
+    <Recents username={username} />
   </div>
 )
 
