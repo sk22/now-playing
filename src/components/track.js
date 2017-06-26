@@ -73,7 +73,7 @@ class Track extends Component {
 const StyledTrack = styled.div`
   display: flex;
   ${({ big }) => `flex-direction: ${big ? 'column' : 'row'};`}
-  ${({ big }) => big || 'height: 9rem;'}
+  ${({ big }) => big || 'height: 8rem;'}
 `
 
 const AlbumArt = styled.img`
@@ -91,6 +91,7 @@ const Title = styled.span`
 
 const TrackText = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: space-between;
   padding: 1rem;
