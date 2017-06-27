@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
 import Track from './track'
 import IndeterminateProgressBar from '../components/indeterminate-progress-bar'
@@ -34,7 +33,7 @@ class Recents extends Component {
         username={this.props.username}
         track={this.state.recents[0]}
       />
-      {this.state.recents.length > 1 && (
+      {/* {this.state.recents.length > 1 && (
         <Played>{this.state.recents.slice(1).map(track => (
           <Track
             username={this.props.username}
@@ -42,21 +41,21 @@ class Recents extends Component {
             key={this.state.recents.indexOf(track)}
           />
         ))}</Played>
-      )}
+      )} */}
     </div>
   ) : (
     <IndeterminateProgressBar />
   ))
 }
 
-const Played = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 2rem;
+// const Played = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   margin-top: 2rem;
 
-  > * + * {
-    margin-top: 1rem;
-  }
-`
+//   > * + * {
+//     margin-top: 1rem;
+//   }
+// `
 
 export default Recents
