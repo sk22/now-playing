@@ -40,14 +40,15 @@ class Track extends Component {
 
   progressivelyLoadImage = urls => {
     if (!urls.length) return
-
-    const updateAndRender = url => this.setState({ image: url }, this.render)
-
     const firstURL = urls[0]
+    const lastURL = urls[urls.length - 1]
+
+    const updateAndRender = url => this.state.image !== lastURL
+      && this.setState({ image: url }, this.render)
+
     load(firstURL).then(() => updateAndRender(firstURL))
 
     if (urls.length > 1) {
-      const lastURL = urls[urls.length - 1]
       load(lastURL).then(() => updateAndRender(lastURL))
     }
 
