@@ -9,11 +9,26 @@ const Margin = styled.div`
   margin-bottom: 1rem;
 `
 
+const Link = styled.a`
+  color: #1A237E;
+  text-decoration: none;
+  font-weight: bold;
+`
+
+const getProfileURL = username => `https://last.fm/user/${username}`
+
 const LoggedIn = ({ username, onLogout }) => (
   <div>
     <Margin>
       <RightLeft>
-        <span>Logged in as {username}</span>
+        <span>
+          Logged in as{' '}
+          <Link
+            href={getProfileURL(username)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >{username}</Link>
+        </span>
         <button className="mdc-button" onClick={onLogout}>Logout</button>
       </RightLeft>
     </Margin>
