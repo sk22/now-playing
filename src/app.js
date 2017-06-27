@@ -51,6 +51,12 @@ class App extends Component {
     username: window.location.pathname.slice(1) || getUsername() || null
   }
 
+  componentDidMount = () => {
+    if (window.location.pathname.slice(1) !== this.state.username) {
+      this.handleLogin(this.state.username)
+    }
+  }
+
   handleLogin = username => {
     this.setState({ username })
     window.history.replaceState(username, 'Now Playing Page', `/${username}`)
